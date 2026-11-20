@@ -314,5 +314,28 @@ function ev(n){try{if(window.goatcounter&&window.goatcounter.count)window.goatco
 document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest("button");if(!b)return;var t=(b.innerText||"").trim();
 if(/^(Administrativo|Enfermeiro|Técnico|Médico)$/.test(t))ev("perfil-"+t);else if(/^Juntar \d+ ao pedido$/.test(t))ev("requisicao-"+t.match(/\d+/)[0]+"-analises");else if(t==="Enviar por email")ev("enviar-email")},true);
 document.addEventListener("change",function(e){var i=e.target;if(i&&i.type==="file")ev(i.hasAttribute("capture")?"fotografar-requisicao":"escolher-imagem")},true)})();</script>
+<script>/* Guia rápido mostrado ao abrir a app */
+(function(){var K="colh-guia-ocultar";
+function passo(n,t,d){return '<li style="display:flex;gap:12px;margin:0 0 14px"><span style="flex:none;width:30px;height:30px;border-radius:50%;background:#0E7C86;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center">'+n+'</span><div><div style="font-weight:800;color:#0B2B3A;margin-bottom:2px">'+t+'</div><div style="color:#3D5260;font-size:14px;line-height:1.45">'+d+'</div></div></li>'}
+function chip(t,bg,c){return '<b style="display:inline-block;padding:1px 8px;border-radius:999px;background:'+bg+';color:'+c+';font-size:13px;white-space:nowrap">'+t+'</b>'}
+function abrir(){if(document.getElementById("colh-guia"))return;var o=document.createElement("div");o.id="colh-guia";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-labelledby","colh-guia-t");
+o.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(11,43,58,.55);display:flex;align-items:center;justify-content:center;padding:16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif";
+o.innerHTML='<div style="background:#fff;border-radius:22px;max-width:380px;width:100%;max-height:92vh;overflow:auto;padding:22px 20px 18px;box-shadow:0 20px 50px rgba(0,0,0,.3)">'
++'<div style="font-size:12px;font-weight:800;letter-spacing:.12em;color:#0E7C86;margin-bottom:4px">GUIA RÁPIDO</div>'
++'<h2 id="colh-guia-t" style="margin:0 0 16px;font-size:22px;line-height:1.2;color:#0B2B3A">Como usar a app em 4 passos</h2><ol style="list-style:none;padding:0;margin:0">'
++passo(1,"Escolha o seu perfil",chip("Administrativo","#E6F2F3","#0B2B3A")+" "+chip("Enfermeiro","#E6F2F3","#0B2B3A")+" "+chip("Técnico","#E6F2F3","#0B2B3A")+" "+chip("Médico","#E6F2F3","#0B2B3A")+"<br>Cada grupo vê só o que precisa.")
++passo(2,"Junte os exames do pedido",chip("Fotografar requisição","#0E7C86","#fff")+" lê a requisição sozinho. Ou pesquise um exame, abra-o e toque em "+chip("Juntar ao pedido","#E6F2F3","#0B2B3A")+".")
++passo(3,"Veja tudo junto",'Toque em '+chip("Modo pedido","#0B2B3A","#fff")+' (o número mostra quantos exames juntou): ordem dos tubos, jejum, transporte, fatores e mensagem ao utente.')
++passo(4,"Consulte um exame de cada vez",'Toque em '+chip("Modo consulta","#0B2B3A","#fff")+' para voltar à pesquisa.')
++'</ol><p style="margin:4px 0 16px;font-size:13px;color:#4F5F6B">Funciona sem rede depois da primeira abertura. Manual de teste: dados fictícios.</p>'
++'<button type="button" id="colh-guia-ok" style="width:100%;border:0;border-radius:14px;background:#0E7C86;color:#fff;font:inherit;font-weight:800;font-size:16px;padding:14px;cursor:pointer">Começar</button>'
++'<button type="button" id="colh-guia-nao" style="width:100%;border:0;background:none;color:#4F5F6B;font:inherit;font-size:14px;padding:12px 0 2px;cursor:pointer;text-decoration:underline">Não voltar a mostrar</button></div>';
+document.body.appendChild(o);var f=function(){o.remove()};
+document.getElementById("colh-guia-ok").onclick=f;document.getElementById("colh-guia-nao").onclick=function(){try{localStorage.setItem(K,"1")}catch(e){}f()};
+o.addEventListener("click",function(e){if(e.target===o)f()});document.getElementById("colh-guia-ok").focus()}
+function botao(){if(document.getElementById("colh-guia-btn"))return;var b=document.createElement("button");b.id="colh-guia-btn";b.type="button";b.setAttribute("aria-label","Abrir o guia rápido");b.textContent="?";
+b.style.cssText="position:fixed;right:14px;bottom:14px;z-index:9999;width:46px;height:46px;border-radius:50%;border:0;background:#0B2B3A;color:#fff;font-weight:800;font-size:22px;line-height:1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;box-shadow:0 6px 16px rgba(0,0,0,.25);cursor:pointer";b.onclick=abrir;document.body.appendChild(b)}
+function ini(){botao();var x=null;try{x=localStorage.getItem(K)}catch(e){}if(!x)setTimeout(abrir,600)}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",ini);else ini()})();</script>
 </body>
 </html>
