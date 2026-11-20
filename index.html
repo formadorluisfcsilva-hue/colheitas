@@ -308,5 +308,11 @@ react-dom/cjs/react-dom-client.production.js:
    *)
 */
 </script>
+<script>/* Contador de visitas (GoatCounter: sem cookies, sem dados pessoais) */
+(function(){try{var s=document.createElement("script");s.async=true;s.setAttribute("data-goatcounter","https://colheitas.goatcounter.com/count");s.src="https://gc.zgo.at/count.js";document.head.appendChild(s)}catch(e){}
+function ev(n){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:n,title:n,event:true})}catch(e){}}
+document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest("button");if(!b)return;var t=(b.innerText||"").trim();
+if(/^(Administrativo|Enfermeiro|Técnico|Médico)$/.test(t))ev("perfil-"+t);else if(/^Juntar \d+ ao pedido$/.test(t))ev("requisicao-"+t.match(/\d+/)[0]+"-analises");else if(t==="Enviar por email")ev("enviar-email")},true);
+document.addEventListener("change",function(e){var i=e.target;if(i&&i.type==="file")ev(i.hasAttribute("capture")?"fotografar-requisicao":"escolher-imagem")},true)})();</script>
 </body>
 </html>
