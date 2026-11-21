@@ -78,14 +78,14 @@ window.RIc=function(h,k,cor,sz){
 </script>
 <script>
 /* Validade da demonstração. Para prolongar: mudar EXPIRA aqui e "expira" em estado.json. Para desligar já: "ativo": false em estado.json. */
-(function(){var EXPIRA="2026-11-30",CH="colh-dono";
+(function(){var EXPIRA="2026-11-21",CH="colh-dono";
 function bloqueia(msg){try{if(localStorage.getItem(CH)==="1")return}catch(e){}
  try{if(window.caches)caches.keys().then(function(k){k.forEach(function(x){caches.delete(x)})});if(navigator.serviceWorker)navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})})}catch(e){}
  var f=function(){document.body.innerHTML='<div style="font-family:system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#F4F8FA;padding:24px;text-align:center;color:#0B2B3A"><div style="max-width:360px"><div style="font-size:40px">🧪</div><h1 style="font-size:20px;margin:10px 0">Demonstração terminada</h1><p style="color:#5B6B78;line-height:1.5">'+msg+'</p><p style="color:#5B6B78;font-size:13px">Colheitas · protótipo apresentado nas IV Jornadas dos TSDT de Análises Clínicas (ULSSA, 2026). Contacto: Luís Silva.</p></div></div>'};
  if(document.body)f();else document.addEventListener("DOMContentLoaded",f);window.__colhBloq=true}
 try{var q=new URLSearchParams(location.search);if(q.get("dono")==="luis-2026")localStorage.setItem(CH,"1");if(q.get("dono")==="sair")localStorage.setItem(CH,"0")}catch(e){}
 var hoje=new Date().toISOString().slice(0,10);
-var ex=EXPIRA;try{ex=localStorage.getItem("colh-expira")||EXPIRA}catch(e){}
+var ex=EXPIRA;try{var st=localStorage.getItem("colh-expira");if(st&&st<EXPIRA)ex=st}catch(e){}
 if(hoje>ex)bloqueia("Esta versão de teste da aplicação já não está disponível.");
 if(location.protocol.indexOf("http")===0&&navigator.onLine){fetch("estado.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).then(function(s){if(!s)return;try{if(s.expira)localStorage.setItem("colh-expira",s.expira)}catch(e){}if(s.ativo===false||(s.expira&&hoje>s.expira)){bloqueia(s.mensagem||"Esta versão de teste da aplicação já não está disponível.");if(!window.__colhDono)setTimeout(function(){},0)}}).catch(function(){})}
 })();
